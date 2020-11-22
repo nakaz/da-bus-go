@@ -37,17 +37,16 @@ type Arrivals struct {
 }
 
 func fetchArrivals(s string) (*Arrivals, error) {
-
 	arrivalsPath := fmt.Sprintf("http://api.thebus.org/arrivals/?key=%v&stop=%v", apiKey, s)
-	fmt.Printf("%s \n", arrivalsPath)
-
 	resp, err := http.Get(arrivalsPath)
 	if err != nil {
+		log.Print(err)
 	}
 	defer resp.Body.Close()
 
 	respData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		log.Print(err)
 	}
 
 	respString := string(respData)
@@ -56,15 +55,13 @@ func fetchArrivals(s string) (*Arrivals, error) {
 	arrivals := &Arrivals{}
 
 	jsonResp, err := xj.Convert(xmlString)
-	// fmt.Printf("%v", jsonResp)
 	if err != nil {
+		log.Print(err)
 	}
 
 	if err := json.Unmarshal(jsonResp.Bytes(), arrivals); err != nil {
 		log.Print(err)
 	}
-
-	fmt.Printf("%+v", arrivals)
 
 	return arrivals, nil
 }
