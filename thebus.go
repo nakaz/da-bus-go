@@ -134,7 +134,7 @@ func fetchRoutes(s string, t string) (*Routes, error) {
 		return nil, err
 	}
 
-	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%s&%s=%s", apiKey, t, s)
+	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%v&%v=%v", apiKey, t, s)
 	resp, err := http.Get(routesPath)
 	if err != nil {
 		log.Print(err)
