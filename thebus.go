@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	xj "github.com/basgys/goxml2json"
 	"io/ioutil"
@@ -127,6 +128,12 @@ func fetchVehicle(s string) (*Vehicle, error) {
 }
 
 func fetchRoutes(s string, t string) (*Routes, error) {
+	validRouteType := map[string]bool{"route": true, "headsign": true}
+	if !validRouteType[t] {
+		err := errors.New("Invalid route type")
+		return nil, err
+	}
+
 	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%s&%s=%s", apiKey, t, s)
 	resp, err := http.Get(routesPath)
 	if err != nil {
