@@ -11,10 +11,6 @@ import (
 	"strings"
 )
 
-var (
-	apiKey = ""
-)
-
 type Arrivals struct {
 	StopTimes struct {
 		Timestamp string `json:"timestamp"`
