@@ -53,6 +53,19 @@ type Vehicle struct {
 	} `json:"vehicles"`
 }
 
+type Routes struct {
+	Routes struct {
+		RouteName string `json:"routeName"`
+		RouteID   string `json:"routeID"`
+		Route     []struct {
+			Headsign  string `json:"headsign"`
+			RouteNum  string `json:"routeNum"`
+			ShapeID   string `json:"shapeID"`
+			FirstStop string `json:"firstStop"`
+		} `json:"route"`
+	} `json:"routes"`
+}
+
 func fetchArrivals(s string) (*Arrivals, error) {
 	arrivalsPath := fmt.Sprintf("http://api.thebus.org/arrivals/?key=%v&stop=%v", apiKey, s)
 	resp, err := http.Get(arrivalsPath)
@@ -111,4 +124,34 @@ func fetchVehicle(s string) (*Vehicle, error) {
 	}
 
 	return vehicle, nil
+}
+
+func fetchRoutes(s string, t string) (*Routes, error) {
+	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%s&%s=%s", apiKey, t, s)
+	resp, err := http.Get(routesPath)
+	if err != nil {
+		log.Print(err)
+	}
+	defer resp.Body.Close()
+
+	respData, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Print(err)
+	}
+
+	respString := string(respData)
+	xmlString := strings.NewReader(respString)
+
+	routes := &Routes{}
+
+	jsonResp, err := xj.Convert(xmlString)
+	if err != nil {
+		log.Print(err)
+	}
+
+	if err := json.Unmarshal(jsonResp.Bytes(), routes); err != nil {
+		log.Print(err)
+	}
+
+	return routes, nil
 }
