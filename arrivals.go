@@ -4,24 +4,8 @@ import (
 	"log"
 )
 
-type Arrival struct {
-	Direction string
-	Headsign  string
-	StopTime  string
-	Vehicle   string
-	Estimated string
-	Latitude  string
-	Longitude string
-	Shape     string
-	ID        string
-	Trip      string
-	Canceled  string
-	Date      string
-	Route     string
-}
-
 type ArrivalResolver struct {
-	arrival Arrival
+	arrival *Arrival
 }
 
 func (a *ArrivalResolver) Headsign() *string {
@@ -78,7 +62,7 @@ func (a *ArrivalResolver) Direction() *string {
 
 func (_ *Resolver) Arrivals(args struct {
 	Stop string
-}) *[]*ArrivalResolver {
+}) []*ArrivalResolver {
 	resp, err := fetchArrivals(args.Stop)
 	if err != nil {
 		log.Print(err)
@@ -86,25 +70,10 @@ func (_ *Resolver) Arrivals(args struct {
 	arrivals := resp.StopTimes.Arrival
 
 	ar := make([]*ArrivalResolver, len(arrivals))
-	al := &ar
-	for i, v := range arrivals {
-		item := &Arrival{
-			Headsign:  v.Headsign,
-			StopTime:  v.StopTime,
-			Vehicle:   v.Vehicle,
-			Estimated: v.Estimated,
-			Latitude:  v.Latitude,
-			Longitude: v.Longitude,
-			Shape:     v.Shape,
-			ID:        v.ID,
-			Canceled:  v.Canceled,
-			Date:      v.Date,
-			Route:     v.Route,
-			Direction: v.Direction,
-		}
+	for i, arrival := range arrivals {
 		ar[i] = &ArrivalResolver{
-			arrival: *item,
+			arrival: arrival,
 		}
 	}
-	return al
+	return ar
 }
