@@ -25,18 +25,13 @@ func parseEnvs() {
 	apiKey = getRequiredEnv("API_KEY", true)
 }
 
-type query struct{}
-
-func (_ *query) Hello() string { return "Hello, World" }
+type Resolver struct{}
 
 func main() {
 	parseEnvs()
-	s := `
-		type Query {
-		 hello: String!
-		}
-		`
-	schema := graphql.MustParseSchema(s, &query{})
-	http.Handle("/query", &relay.Handler{Schema: schema})
+
+	schema := graphql.MustParseSchema(rootSchema, &Resolver{})
+	http.Handle("/graphql", &relay.Handler{Schema: schema})
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
