@@ -124,13 +124,18 @@ func fetchVehicle(s string) (*Vehicle, error) {
 }
 
 func fetchRoutes(s string, t string) (*Routes, error) {
-	validRouteType := map[string]bool{"route": true, "headsign": true}
-	if !validRouteType[t] {
+	routeType := ""
+	switch t {
+	case "route":
+		routeType = t
+	case "headsign":
+		routeType = t
+	default:
 		err := errors.New("Invalid route type")
 		return nil, err
 	}
 
-	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%v&%v=%v", apiKey, t, s)
+	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%v&%v=%v", apiKey, routeType, s)
 	resp, err := http.Get(routesPath)
 	if err != nil {
 		log.Print(err)
