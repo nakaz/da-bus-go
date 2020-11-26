@@ -30,7 +30,8 @@ type Resolver struct{}
 func main() {
 	parseEnvs()
 
-	schema := graphql.MustParseSchema(rootSchema, &Resolver{})
+	opts := []graphql.SchemaOpt{graphql.UseFieldResolvers()}
+	schema := graphql.MustParseSchema(rootSchema, &Resolver{}, opts...)
 	http.Handle("/graphql", &relay.Handler{Schema: schema})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
