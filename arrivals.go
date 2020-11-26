@@ -4,6 +4,14 @@ import (
 	"log"
 )
 
+type Arrivals struct {
+	StopTimes struct {
+		Timestamp string     `json:"timestamp"`
+		Arrival   []*Arrival `json:"arrival"`
+		Stop      string     `json:"stop"`
+	} `json:"stopTimes"`
+}
+
 func (_ *Resolver) Arrivals(args struct {
 	Stop string
 }) []*Arrival {
