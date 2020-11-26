@@ -24,7 +24,7 @@ type Vehicle struct {
 
 // Resolver
 func (_ *Resolver) Vehicle(args struct {
-	Num string
+	Num int32
 }) Vehicle {
 	resp, err := fetchVehicle(args.Num)
 	if err != nil {
@@ -41,7 +41,7 @@ type VehicleBody struct {
 	} `json:"vehicles"`
 }
 
-func fetchVehicle(n string) (*VehicleBody, error) {
+func fetchVehicle(n int32) (*VehicleBody, error) {
 	vehiclePath := fmt.Sprintf("http://api.thebus.org/vehicle/?key=%v&num=%v", apiKey, n)
 	resp, err := http.Get(vehiclePath)
 	if err != nil {

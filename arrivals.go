@@ -12,7 +12,7 @@ import (
 
 // Resolver
 func (_ *Resolver) Arrivals(args struct {
-	Stop string
+	Stop int32
 }) []*Arrival {
 	resp, err := fetchArrivals(args.Stop)
 	if err != nil {
@@ -30,7 +30,7 @@ type ArrivalsBody struct {
 	} `json:"stopTimes"`
 }
 
-func fetchArrivals(s string) (*ArrivalsBody, error) {
+func fetchArrivals(s int32) (*ArrivalsBody, error) {
 	arrivalsPath := fmt.Sprintf("http://api.thebus.org/arrivals/?key=%v&stop=%v", apiKey, s)
 	resp, err := http.Get(arrivalsPath)
 	if err != nil {

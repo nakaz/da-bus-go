@@ -2,9 +2,9 @@ package main
 
 const rootSchema = `
 type Query {
-		arrivals (stop: String!): [Arrival]!
-		vehicle (num: String!): Vehicle!
-		route (route: String!): [Route]!
+		arrivals (stop: Int!): [Arrival]!
+		vehicle (num: Int!): Vehicle!
+		route (route: Int!): [Route]!
 		headsign (headsign: String!): [Route]!
 }
 type Arrival {
