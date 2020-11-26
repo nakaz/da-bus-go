@@ -4,6 +4,8 @@ const rootSchema = `
 type Query {
 		arrivals (stop: String!): [Arrival]!
 		vehicle (num: String!): Vehicle!
+		route (route: String!): [Route]!
+		headsign (headsign: String!): [Route]!
 }
 type Arrival {
 		headsign:  String!
@@ -30,5 +32,11 @@ type Vehicle {
 		number:         String!
 		trip:           String!
 		adherence:      String!
+}
+type Route {
+		headsign:  String!
+		routeNum:  String!
+		shapeID:   String!
+		firstStop: String!
 }
 `
