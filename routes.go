@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -31,7 +32,8 @@ func fetchRoutes(s string, t string) (*RoutesBody, error) {
 		return nil, err
 	}
 
-	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%v&%v=%v", apiKey, routeType, s)
+	routesPath := fmt.Sprintf("http://api.thebus.org/route/?key=%v&%v=%v", apiKey, routeType, url.QueryEscape(s))
+
 	resp, err := http.Get(routesPath)
 	if err != nil {
 		log.Print(err)
