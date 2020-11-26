@@ -10,14 +10,7 @@ import (
 	"strings"
 )
 
-type ArrivalsBody struct {
-	StopTimes struct {
-		Timestamp string     `json:"timestamp"`
-		Arrival   []*Arrival `json:"arrival"`
-		Stop      string     `json:"stop"`
-	} `json:"stopTimes"`
-}
-
+// Resolver
 func (_ *Resolver) Arrivals(args struct {
 	Stop string
 }) []*Arrival {
@@ -26,6 +19,15 @@ func (_ *Resolver) Arrivals(args struct {
 		log.Print(err)
 	}
 	return resp.StopTimes.Arrival
+}
+
+// API
+type ArrivalsBody struct {
+	StopTimes struct {
+		Timestamp string     `json:"timestamp"`
+		Arrival   []*Arrival `json:"arrival"`
+		Stop      string     `json:"stop"`
+	} `json:"stopTimes"`
 }
 
 func fetchArrivals(s string) (*ArrivalsBody, error) {
