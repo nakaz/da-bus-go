@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"strconv"
 )
 
 type Route struct {
@@ -13,9 +12,9 @@ type Route struct {
 }
 
 func (_ *Resolver) Route(args struct {
-	Route int32
+	Route string
 }) []*Route {
-	resp, err := fetchRoutes(strconv.Itoa(int(args.Route)), "route")
+	resp, err := fetchRoutes(args.Route, "route")
 	if err != nil {
 		log.Print(err)
 	}
