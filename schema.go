@@ -3,6 +3,7 @@ package main
 const rootSchema = `
 type Query {
 		arrivals (stop: String!): [Arrival]!
+		vehicle (num: String!): Vehicle!
 }
 type Arrival {
 		headsign:  String!
@@ -18,5 +19,16 @@ type Arrival {
 		date:      String!
 		route:     String!
 		direction: String!
+}
+type Vehicle {
+		driver:         String!
+		longitude:      String!
+		latitude:       String!
+		lastMessage:    String!
+		headsign:       String!
+		routeShortName: String!
+		number:         String!
+		trip:           String!
+		adherence:      String!
 }
 `
