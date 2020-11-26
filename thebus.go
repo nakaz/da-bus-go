@@ -41,36 +41,6 @@ type Routes struct {
 	} `json:"routes"`
 }
 
-func fetchArrivals(s string) (*Arrivals, error) {
-	arrivalsPath := fmt.Sprintf("http://api.thebus.org/arrivals/?key=%v&stop=%v", apiKey, s)
-	resp, err := http.Get(arrivalsPath)
-	if err != nil {
-		log.Print(err)
-	}
-	defer resp.Body.Close()
-
-	respData, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Print(err)
-	}
-
-	respString := string(respData)
-	xmlString := strings.NewReader(respString)
-
-	arrivals := &Arrivals{}
-
-	jsonResp, err := xj.Convert(xmlString)
-	if err != nil {
-		log.Print(err)
-	}
-
-	if err := json.Unmarshal(jsonResp.Bytes(), arrivals); err != nil {
-		log.Print(err)
-	}
-
-	return arrivals, nil
-}
-
 func fetchVehicle(s string) (*Vehicle, error) {
 	vehiclePath := fmt.Sprintf("http://api.thebus.org/vehicle/?key=%v&num=%v", apiKey, s)
 	resp, err := http.Get(vehiclePath)
