@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
+	"time"
 )
 
 type Arrival struct {
@@ -40,4 +42,16 @@ func (a *Arrival) LatLng() []float64 {
 		log.Print(err)
 	}
 	return []float64{float64(lat), float64(lng)}
+}
+
+func (a *Arrival) ArrivalTime() string {
+	date := a.Date
+	stopTime := a.StopTime
+
+	loc, _ := time.LoadLocation("HST")
+	t, err := time.ParseInLocation("01/2/2006 3:04 PM", fmt.Sprintf("%v %v", date, stopTime), loc)
+	if err != nil {
+		log.Print(err)
+	}
+	return t.Format(time.RFC3339)
 }
