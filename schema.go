@@ -9,7 +9,6 @@ type Query {
 }
 type Arrival {
 		headsign:  String!
-		stoptime:  String!
 		estimated: String!
 		latitude:  String!
 		longitude: String!
@@ -17,11 +16,11 @@ type Arrival {
 		id:        String!
 		trip:      String!
 		canceled:  String!
-		date:      String!
 		route:     String!
 		direction: String!
 		vehicleId: Int!
 		latLng: [Float!]!
+		arrivalTime: String!
 }
 type Vehicle {
 		driver:         String!
