@@ -1,5 +1,8 @@
 <script>
-	let name = 'world';
+  import Arrivals from './screens/Arrivals.svelte';
 </script>
 
-<h1>Hello {name}!</h1>
+<div>
+  <Arrivals />
+</div>
+
