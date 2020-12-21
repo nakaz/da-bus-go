@@ -1,5 +1,5 @@
 <script>
-const list = new Array(10);
+const list = new Array(20);
 const mockData = list.fill({
   "headsign": "KALIHI TRANSIT CENTER",
   "latLng": [21.3023, -157.84484],
@@ -9,20 +9,26 @@ const mockData = list.fill({
 });
 </script>
 
+<div class='arrivals-header'>
+  Stop Name / Street: Waialae Ave & Harding St.
+  Stop Location: NA
+  Stop ID: 12312 - W Bound
+  Route: 1
+</div>
 <div class='arrivals-list'>
   {#each mockData as arrival}
-    <div class='arrivals-list-item'>
-      <div class="arrivals-list-item--container">
-        <div class='arrivals-list-item--top'>
+    <div class='item'>
+      <div class="container">
+        <div>
           <span>{arrival.route}</span>
           -
           <span>{arrival.headsign}</span>
         </div>
-        <div class='arrivals-list-item--bottom'>
+        <div>
           <span>{arrival.arrivalTime}</span>
         </div>
       </div>
-      <div class="arrivals-list-item--eta">
+      <div class="eta">
         {arrival.estimated}
       </div>
     </div>
@@ -30,24 +36,31 @@ const mockData = list.fill({
 </div>
 
 <style>
+.arrivals-header {
+  padding: 10px;
+
+}
 .arrivals-list {
   display: flex;
   flex-direction: column;
-}
-.arrivals-list-item {
-  display: flex;
-  border-bottom: 1px solid black;
-  justify-content: space-between;
-}
-.arrivals-list-item--container {
-  display: flex;
-  padding: 10px;
-  flex-direction: column;
-}
-.arrivals-list-item--eta {
-  display: flex;
-  padding: 10px;
-  align-items: center;
-  justify-content: center;
+
+  & .item {
+    display: flex;
+    border-bottom: 1px solid black;
+    justify-content: space-between;
+
+    & .container {
+      display: flex;
+      padding: 10px;
+      flex-direction: column;
+    }
+
+    & .eta {
+      display: flex;
+      padding: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
 </style>
