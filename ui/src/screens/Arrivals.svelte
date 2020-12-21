@@ -1,12 +1,20 @@
 <script>
-const list = new Array(20);
-const mockData = list.fill({
-  "headsign": "KALIHI TRANSIT CENTER",
-  "latLng": [21.3023, -157.84484],
-  "arrivalTime": "2020-12-20T11:50:00-10:00",
-  "route": "1",
-  "estimated": "1",
-});
+  import { operationStore, query } from '@urql/svelte';
+
+  const arrivals = operationStore(`
+    query ($stop: Int!){
+      arrivals(stop: $stop) {
+        headsign
+        latLng
+        arrivalTime
+        route
+        estimated
+        vehicleId
+      }
+    }
+  `, { stop: 3158 });
+
+  query(arrivals);
 </script>
 
 <div class='arrivals-header'>
@@ -16,23 +24,29 @@ const mockData = list.fill({
   Route: 1
 </div>
 <div class='arrivals-list'>
-  {#each mockData as arrival}
-    <div class='item'>
-      <div class="container">
-        <div>
-          <span>{arrival.route}</span>
-          -
-          <span>{arrival.headsign}</span>
+  {#if $arrivals.fetching}
+    <p>Loading...</p>
+  {:else if $arrivals.error}
+    <p>{$arrivals.error.message}</p>
+  {:else}
+    {#each arrivals.data.arrivals as arrival}
+      <div class='item'>
+        <div class="container">
+          <div>
+            <span>{arrival.route}</span>
+            -
+            <span>{arrival.headsign}</span>
+          </div>
+          <div>
+            <span>{arrival.arrivalTime}</span>
+          </div>
         </div>
-        <div>
-          <span>{arrival.arrivalTime}</span>
+        <div class="eta">
+          {arrival.estimated}
         </div>
       </div>
-      <div class="eta">
-        {arrival.estimated}
-      </div>
-    </div>
-  {/each}
+    {/each}
+  {/if}
 </div>
 
 <style>
