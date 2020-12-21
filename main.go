@@ -30,6 +30,9 @@ type Resolver struct{}
 func main() {
 	parseEnvs()
 
+	FileServer := http.FileServer(http.Dir("./ui/public"))
+	http.Handle("/", FileServer)
+
 	opts := []graphql.SchemaOpt{graphql.UseFieldResolvers()}
 	schema := graphql.MustParseSchema(rootSchema, &Resolver{}, opts...)
 	http.Handle("/graphql", &relay.Handler{Schema: schema})
