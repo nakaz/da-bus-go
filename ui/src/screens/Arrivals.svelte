@@ -19,10 +19,7 @@
 </script>
 
 <div class='arrivals-header'>
-  Stop Name / Street: Waialae Ave & Harding St.
-  Stop Location: NA
-  Stop ID: 12312 - W Bound
-  Route: 1
+  Stop: {stop}
 </div>
 <div class='arrivals-list'>
   {#if $arrivals.fetching}
@@ -53,7 +50,8 @@
 <style>
 .arrivals-header {
   padding: 10px;
-
+  display: flex;
+  flex-direction: column;
 }
 .arrivals-list {
   display: flex;
