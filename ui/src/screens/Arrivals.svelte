@@ -1,6 +1,8 @@
 <script>
   import { operationStore, query } from '@urql/svelte';
 
+  export let stop;
+
   const arrivals = operationStore(`
     query ($stop: Int!){
       arrivals(stop: $stop) {
@@ -12,8 +14,7 @@
         vehicleId
       }
     }
-  `, { stop: 3158 });
-
+  `, { stop: Number(stop) });
   query(arrivals);
 </script>
 
